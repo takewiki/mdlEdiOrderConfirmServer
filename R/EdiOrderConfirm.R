@@ -24,6 +24,11 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token) {
 
   text_EdiOrderConfirm_FCommittedQuantityConfirmedDate = tsui::var_text('text_EdiOrderConfirm_FCommittedQuantityConfirmedDate')
 
+
+  text_EdiOrderConfirm_FBillNO_view = tsui::var_text('text_EdiOrderConfirm_FBillNO_view')
+
+  text_EdiOrderConfirm_FSeq_view = tsui::var_text('text_EdiOrderConfirm_FSeq_view')
+
   shiny::observeEvent(input$btn_EdiOrderConfirm_update, {
 
     FBillNO <- text_EdiOrderConfirm_FBillNO()
@@ -54,6 +59,28 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token) {
 
 
 
+
+  })
+
+
+
+  shiny::observeEvent(input$btn_EdiOrderConfirm_view, {
+
+    FBillNO <- text_EdiOrderConfirm_FBillNO_view()
+    FSeq <- text_EdiOrderConfirm_FSeq_view()
+    data = mdlEdiOrderConfirmPkg::EdiOrderConfirm_view(dms_token = dms_token,FMessageNumber = FBillNO,FLineItemNumber = FSeq)
+
+    tsui::run_dataTable2(id ='EdiOrderConfirm_resultView' ,data = data)
+
+
+    tsui::run_download_xlsx(id ='dl_EdiOrderConfirm' ,data = data,filename = '销售订单.xlsx')
+
+  })
+
+
+
+  shiny::observeEvent(input$btn_EdiOrderConfirm_sync, {
+    tsui::pop_notice('查询')
 
   })
 
