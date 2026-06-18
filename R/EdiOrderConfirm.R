@@ -91,8 +91,11 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token,erp_token
     FBillNO = text_EdiOrderConfirm_FBillNO_sync()
 
 
+    #同步到erp响应表
     mdlEdiOrderConfirmPkg::EdiOrderConfirm_sync(erp_token =erp_token ,FMessageNumber = FBillNO)
 
+
+    # 插入数据中台表头
 
     data_header = mdlEdiOrderConfirmPkg::EdiOrderHeader_view(erp_token = erp_token,FMessageNumber = FBillNO)
 
@@ -100,13 +103,15 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token,erp_token
     tsda::db_writeTable2(token = dms_token,table_name = 'rds_dms_ods_t_edi_salesOrder',r_object = data_header,append = TRUE)
 
 
+    # 插入数据中台明细
     data_item = mdlEdiOrderConfirmPkg::EdiOrderItem_view(erp_token = erp_token,FMessageNumber = FBillNO)
 
 
     tsda::db_writeTable2(token = dms_token,table_name = 'rds_dms_ods_t_edi_salesOrderEntry',r_object = data_item,append = TRUE)
 
-
+   # 更新状态
     mdlEdiOrderConfirmPkg::EdiOrderFIsDo_update(erp_token = erp_token,FMessageNumber = FBillNO)
+
     tsui::pop_notice('同步成功')
 
   })
