@@ -4,7 +4,7 @@
 \alias{EdiOrderConfirmUpdateServer}
 \title{处理逻辑}
 \usage{
-EdiOrderConfirmUpdateServer(input, output, session, dms_token)
+EdiOrderConfirmUpdateServer(input, output, session, dms_token, erp_token)
 }
 \arguments{
 \item{input}{输入}
@@ -14,6 +14,8 @@ EdiOrderConfirmUpdateServer(input, output, session, dms_token)
 \item{session}{会话}
 
 \item{dms_token}{口令}
+
+\item{erp_token}{}
 }
 \value{
 返回值
