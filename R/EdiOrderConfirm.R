@@ -112,6 +112,10 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token,erp_token
    # 更新状态
     mdlEdiOrderConfirmPkg::EdiOrderFIsDo_update(erp_token = erp_token,FMessageNumber = FBillNO)
 
+
+    FBillNo <- paste0('XSDD-102-', FBillNO)
+    mdlEdiOrderConfirmr::EdiOrderConfirm_salOrderSync(dms_token =dms_token ,FBillNo = FBillNo)
+
     tsui::pop_notice('同步成功')
 
   })
