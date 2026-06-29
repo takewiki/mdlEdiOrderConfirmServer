@@ -33,6 +33,12 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token,erp_token
 
   text_EdiOrderConfirm_FBillNO_sync = tsui::var_text('text_EdiOrderConfirm_FBillNO_sync')
 
+
+  text_EdiOrderConfirm_FBillNO_delete = tsui::var_text('text_EdiOrderConfirm_FBillNO_delete')
+
+
+
+
   shiny::observeEvent(input$btn_EdiOrderConfirm_update, {
 
     FBillNO <- text_EdiOrderConfirm_FBillNO()
@@ -86,6 +92,9 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token,erp_token
 
 
 
+
+
+
   shiny::observeEvent(input$btn_EdiOrderConfirm_sync, {
 
     FBillNO = text_EdiOrderConfirm_FBillNO_sync()
@@ -118,6 +127,19 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token,erp_token
 
     tsui::pop_notice('同步成功')
 
+  })
+
+  shiny::observeEvent(input$btn_EdiOrderConfirm_delete, {
+
+
+    FBillNO <- text_EdiOrderConfirm_FBillNO_delete()
+    # 销售订单确认删除
+    mdlEdiOrderConfirmPkg::EdiOrderConfirm_delete(erp_token = erp_token,FMessageNumber = FBillNO)
+    # 删除数据中台订单
+
+    mdlEdiOrderConfirmPkg::dms_EdiOrderConfirm_delete(dms_token = dms_token,FBillNo = FBillNO)
+
+    tsui::pop_notice("删除成功")
   })
 
 
