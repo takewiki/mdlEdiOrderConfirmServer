@@ -133,6 +133,8 @@ EdiOrderConfirmUpdateServer <- function(input,output,session,dms_token,erp_token
 
 
     FBillNO <- text_EdiOrderConfirm_FBillNO_delete()
+
+    FBillNO <- paste0('XSDD-102-', FBillNO)
     # 销售订单确认删除
     mdlEdiOrderConfirmPkg::EdiOrderConfirm_delete(erp_token = erp_token,FMessageNumber = FBillNO)
     # 删除数据中台订单
